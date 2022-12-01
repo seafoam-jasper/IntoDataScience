@@ -2,7 +2,7 @@
 title: "DataScience - Honey Production"
 author: "Martina Djordjijevic"
 date: "2022-09-28"
-output: html_document
+output: github_document
 ---
 
 # Introduction
@@ -19,6 +19,17 @@ output: html_document
 
 
 # Results
+
+```{r, include=TRUE}
+library(usmap)
+library(ggplot2)
+honey <- read.csv("honeyproduction.csv")
+plot_usmap(data = honey, values = "totalprod", color = "red") + 
+  scale_fill_continuous(name = "totalprod", label = scales::comma) + 
+  theme(legend.position = "right")
+
+
+```
 
 ```{r, include=TRUE}
 
