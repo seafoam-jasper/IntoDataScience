@@ -18,8 +18,8 @@ library(usmap)
 ``` r
 library(ggplot2)
 honey <- read.csv("honeyproduction.csv")
-plot_usmap(data = honey, values = "totalprod", color = "red") + 
-  scale_fill_continuous(name = "totalprod", label = scales::comma) + 
+plot_usmap(data = honey, values = "totalprod", color = "black") + 
+  scale_fill_continuous(low = "blue", high = "yellow", name = "totalprod", label = scales::comma) + 
   theme(legend.position = "right")
 ```
 
@@ -65,8 +65,7 @@ honey %>% select(year, totalprod) %>%
  scale_x_continuous(breaks = 1998:2012)+
  scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))+
  labs(y = 'tons', x = '')+
- theme(axis.text.x = element_text(size = 15),
-       axis.text.y = element_text(size = 15),
+ theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
        panel.grid.major.x = element_blank())
 ```
 
@@ -86,8 +85,7 @@ honey %>%
  scale_y_continuous(limits = c(0,NA),
                     labels = scales::percent_format())+
  labs(y = '', x = '')+
- theme(axis.text.x = element_text(size = 15),
-       axis.text.y = element_text(size = 15),
+ theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
        panel.grid.major.x = element_blank())
 ```
 
