@@ -11,9 +11,51 @@ Martina Djordjijevic
 
 # Introduction
 
+Bees have been around for many millennia, however in most recent times
+the hardworking colonies face many trials and tribulations due to
+various factors such as an extensive use of pesticides, loss of habitat
+– mostly because of rapid urbanization, unusually warm winters that
+cause a shift in plant development etc. The importance of these insects
+in the process of pollination is undeniable, valid for both wild bees
+and honeybees, hence the rapid decline in the number of their colonies
+presents a problem not only on the more global level in the nature, but
+also to the world agricultural output economic value.
+
+Back in 2006, there was a huge decline in the honeybee population
+reported mostly in North America, which had a huge impact on the
+American honey agriculture. This decline was due to the Colony Collapse
+Disorder, a phenomenon reported in many countries and continents since
+1998.
+
+Let’s take a look at Wikipedia’s definition of this phenomenon:
+
+> > > Colony collapse disorder (CCD) is an abnormal phenomenon that
+> > > occurs when the majority of worker bees in a honey bee colony
+> > > disappear, leaving behind a queen, plenty of food, and a few nurse
+> > > bees to care for the remaining immature bees.
+
+It is important to note that this phenomenon also causes the remaining
+hive colony to collapse. The cause of the decline of 2006 is probably to
+be found in hive diseases and pesticides harming the pollinators, as
+these two processes are highly correlated, though no real consensus was
+reached. Ever since the collapse, the American honey industry has been
+largely struggling. After the collapse the U.S. is forced to import
+large amounts of honey, more precisely 350 of the 400 million pounds
+each year, which is in stark contrast to this industries brilliant past
+when almost half the honey consumed was produced locally.
+
+The dataset analysed here gives insight into honey production supply and
+demand in America by state from 1998 to 2012.
+
 ![](closeup-shot-bee-chamomile-flower.jpg)
 
 # Methods
+
+First, let’s calculate the correlation between states and number of
+honey producing colonies. This could be done using the following
+formula: 1 - the result of variance of the group/ the total variance.
+
+we found a correlation of 0.964, a super one!
 
 ``` r
 honey <- read.csv("honeyproduction.csv")
@@ -50,12 +92,44 @@ library(dplyr)
 state_variance <- honey %>% group_by(state) %>% summarize (variance=var(numcol))
 state_count <- honey %>% group_by(state) %>% summarize (count=n())
 total_variance <- honey %>% summarize (variance=var(numcol))
-state_poundered_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
-correlation_state_numcol <- round((1 - (state_poundered_mean_variance/total_variance)), 3)
+state_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
+correlation_state_numcol <- round((1 - (state_mean_variance/total_variance)), 3)
 correlation_state_numcol[1,1]
 ```
 
     ## [1] 0.964
+
+``` r
+library(ggplot2)
+library(ggpubr)
+library(tidyverse)
+library(broom)
+library(AICcmodavg)
+```
+
+    ## Warning: package 'AICcmodavg' was built under R version 4.2.2
+
+``` r
+honey <- read.csv("honeyproduction.csv")
+one.way <- aov(numcol ~ state, data = honey)
+
+summary(one.way)
+```
+
+    ##              Df    Sum Sq   Mean Sq F value Pr(>F)    
+    ## state        43 5.012e+12 1.166e+11   394.1 <2e-16 ***
+    ## Residuals   582 1.721e+11 2.958e+08                   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+library(ggplot2)
+ggplot(honey, aes(state, numcol))+
+  geom_boxplot(aes(fill = state), show.legend = FALSE)+
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1))
+```
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 # Results
 
@@ -75,7 +149,7 @@ plot_usmap(data = honey, values = "totalprod", color = "black") +
 
     ## Warning: Ignoring unknown parameters: linewidth
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 library(tidyverse)
@@ -107,7 +181,7 @@ honey %>% select(year, totalprod) %>%
        panel.grid.major.x = element_blank())
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -127,7 +201,7 @@ honey %>%
        panel.grid.major.x = element_blank())
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -145,7 +219,7 @@ ggplot(aes(year))+
  scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -165,7 +239,7 @@ honey %>% select(state, totalprod) %>%
        axis.text.y = element_text(size = 13))
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -182,7 +256,7 @@ honey %>% group_by(state, numcol, year) %>%
  ggtitle(label = 'Colonies per state')
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -202,11 +276,15 @@ honey %>% group_by(state, totalprod, year) %>%
     ## Warning: `label_number_si()` was deprecated in scales 1.2.0.
     ## Please use the `scale_cut` argument of `label_number()` instead.
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 # Conclusion
 
 # References
+
+The clean version of this dataset was provided by Kaggle, however the
+original raw dataset was from the USDA’s National Agricultural
+Statistics Service (NASS).
 
 <a href="https://www.freepik.com/free-photo/closeup-shot-bee-chamomile-flower_13411366.htm#query=bee&position=29&from_view=search&track=sph">Image
 by wirestock</a> on Freepik
