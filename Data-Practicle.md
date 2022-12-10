@@ -1,11 +1,61 @@
-DataScience - Honey Production
+DataScience - Honey Productionin the USA
 ================
 Martina Djordjijevic
 2022-09-28
 
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#methods" id="toc-methods">Methods</a>
+- <a href="#results" id="toc-results">Results</a>
+- <a href="#conclusion" id="toc-conclusion">Conclusion</a>
+- <a href="#references" id="toc-references">References</a>
+
 # Introduction
 
+![](closeup-shot-bee-chamomile-flower.jpg)
+
 # Methods
+
+``` r
+honey <- read.csv("honeyproduction.csv")
+library(ggplot2)
+library(tidyverse)
+```
+
+    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+    ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+    ## ✔ purrr   0.3.4      
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+
+``` r
+library(data.table)
+```
+
+    ## 
+    ## Attaching package: 'data.table'
+    ## 
+    ## The following objects are masked from 'package:dplyr':
+    ## 
+    ##     between, first, last
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     transpose
+
+``` r
+library(dplyr)
+state_variance <- honey %>% group_by(state) %>% summarize (variance=var(numcol))
+state_count <- honey %>% group_by(state) %>% summarize (count=n())
+total_variance <- honey %>% summarize (variance=var(numcol))
+state_poundered_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
+correlation_state_numcol <- round((1 - (state_poundered_mean_variance/total_variance)), 3)
+correlation_state_numcol[1,1]
+```
+
+    ## [1] 0.964
 
 # Results
 
@@ -25,22 +75,10 @@ plot_usmap(data = honey, values = "totalprod", color = "black") +
 
     ## Warning: Ignoring unknown parameters: linewidth
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-    ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-    ## ✔ purrr   0.3.4      
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-
-``` r
 honey <- read.csv("honeyproduction.csv")
 
 str(honey)
@@ -69,7 +107,7 @@ honey %>% select(year, totalprod) %>%
        panel.grid.major.x = element_blank())
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -89,7 +127,7 @@ honey %>%
        panel.grid.major.x = element_blank())
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -107,7 +145,7 @@ ggplot(aes(year))+
  scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -127,7 +165,7 @@ honey %>% select(state, totalprod) %>%
        axis.text.y = element_text(size = 13))
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -144,7 +182,7 @@ honey %>% group_by(state, numcol, year) %>%
  ggtitle(label = 'Colonies per state')
 ```
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 library(dplyr)
@@ -164,8 +202,11 @@ honey %>% group_by(state, totalprod, year) %>%
     ## Warning: `label_number_si()` was deprecated in scales 1.2.0.
     ## Please use the `scale_cut` argument of `label_number()` instead.
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 # Conclusion
 
-library(tidyverse)
+# References
+
+<a href="https://www.freepik.com/free-photo/closeup-shot-bee-chamomile-flower_13411366.htm#query=bee&position=29&from_view=search&track=sph">Image
+by wirestock</a> on Freepik

@@ -1,20 +1,35 @@
 ---
-title: "DataScience - Honey Production"
+title: "DataScience - Honey Productionin the USA"
 author: "Martina Djordjijevic"
 date: "2022-09-28"
-output: github_document
+output: 
+  github_document:
+    toc: true
 ---
 
 # Introduction
 
+
+![](closeup-shot-bee-chamomile-flower.jpg)
 
 
 
 
 # Methods
 
-
-
+```{r, include=TRUE}
+honey <- read.csv("honeyproduction.csv")
+library(ggplot2)
+library(tidyverse)
+library(data.table)
+library(dplyr)
+state_variance <- honey %>% group_by(state) %>% summarize (variance=var(numcol))
+state_count <- honey %>% group_by(state) %>% summarize (count=n())
+total_variance <- honey %>% summarize (variance=var(numcol))
+state_poundered_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
+correlation_state_numcol <- round((1 - (state_poundered_mean_variance/total_variance)), 3)
+correlation_state_numcol[1,1]
+```
 
 
 
@@ -140,5 +155,5 @@ honey %>% group_by(state, totalprod, year) %>%
 
 # Conclusion
 
-
-library(tidyverse)
+# References
+<a href="https://www.freepik.com/free-photo/closeup-shot-bee-chamomile-flower_13411366.htm#query=bee&position=29&from_view=search&track=sph">Image by wirestock</a> on Freepik
