@@ -4,8 +4,9 @@ Martina Djordjijevic
 2022-09-28
 
 - <a href="#introduction" id="toc-introduction">Introduction</a>
-- <a href="#methods" id="toc-methods">Methods</a>
+- <a href="#data-analysis" id="toc-data-analysis">Data analysis</a>
 - <a href="#results" id="toc-results">Results</a>
+- <a href="#trends-in-data" id="toc-trends-in-data">Trends in data</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
 - <a href="#references" id="toc-references">References</a>
 
@@ -49,72 +50,41 @@ demand in America by state from 1998 to 2012.
 
 ![](closeup-shot-bee-chamomile-flower.jpg)
 
-# Methods
+# Data analysis
 
-First, let’s calculate the correlation between states and number of
-honey producing colonies. This could be done using the following
-formula: 1 - the result of variance of the group/ the total variance.
+Firstly, let’s take a quick look at the data we’ll be analyzing.
 
-we found a correlation of 0.964, a super one!
+    ##   state numcol yieldpercol totalprod   stocks priceperlb prodvalue year
+    ## 1    AL  16000          71   1136000   159000       0.72    818000 1998
+    ## 2    AZ  55000          60   3300000  1485000       0.64   2112000 1998
+    ## 3    AR  53000          65   3445000  1688000       0.59   2033000 1998
+    ## 4    CA 450000          83  37350000 12326000       0.62  23157000 1998
+    ## 5    CO  27000          72   1944000  1594000       0.70   1361000 1998
+    ## 6    FL 230000          98  22540000  4508000       0.64  14426000 1998
 
-``` r
-honey <- read.csv("honeyproduction.csv")
-library(ggplot2)
-library(tidyverse)
-```
+Here’s also a description of each column’s content:
 
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-    ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-    ## ✔ purrr   0.3.4      
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
+- *numcol*: Number of honey producing colonies, more precisely the
+  maximum number of colonies from which honey was taken during the year.
+- *yieldpercol*: Honey yield in pounds per colony.
+- *totalprod*: Total production in pounds (numcol x yieldpercol).
+- *stocks*: Refers to stocks in pounds held by producers.
+- *priceperlb*: Refers to average price per pound, in dollars, based on
+  expanded sales.
+- *prodvalue*: Value of production in dollars (totalprod x priceperlb).
 
-``` r
-library(data.table)
-```
+This dataset is rather rich in information. However the first thing I’d
+like to investigate further is the relationship between the states and
+number of honey producing colonies. Here let’s assume a **H0** - *states
+have no impact on the number of honey producing colonies.* Followed by a
+**H1** - *states do have an impact on the number of honey producing
+colonies.* Let’s plot a boxplot of state and numcol to verify this.
 
-    ## 
-    ## Attaching package: 'data.table'
-    ## 
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     between, first, last
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     transpose
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-``` r
-library(dplyr)
-state_variance <- honey %>% group_by(state) %>% summarize (variance=var(numcol))
-state_count <- honey %>% group_by(state) %>% summarize (count=n())
-total_variance <- honey %>% summarize (variance=var(numcol))
-state_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
-correlation_state_numcol <- round((1 - (state_mean_variance/total_variance)), 3)
-correlation_state_numcol[1,1]
-```
-
-    ## [1] 0.964
-
-``` r
-library(ggplot2)
-library(ggpubr)
-library(tidyverse)
-library(broom)
-library(AICcmodavg)
-```
-
-    ## Warning: package 'AICcmodavg' was built under R version 4.2.2
-
-``` r
-honey <- read.csv("honeyproduction.csv")
-one.way <- aov(numcol ~ state, data = honey)
-
-summary(one.way)
-```
+The boxplot indicates that there could be some statistical difference
+between the variables. To confirm this, let’s calculate the correlation
+between states and number of honey producing colonies with an ANOVA.
 
     ##              Df    Sum Sq   Mean Sq F value Pr(>F)    
     ## state        43 5.012e+12 1.166e+11   394.1 <2e-16 ***
@@ -122,41 +92,21 @@ summary(one.way)
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-``` r
-library(ggplot2)
-ggplot(honey, aes(state, numcol))+
-  geom_boxplot(aes(fill = state), show.legend = FALSE)+
-  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1))
-```
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+Because the **p-value** is significantly lower than alpha of 0.05, we
+can reject the **H0** and conclude that there is a significant
+statistical difference between the number of colonies in each state.
 
 # Results
 
-``` r
-library(usmap)
-```
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-    ## Warning: package 'usmap' was built under R version 4.2.2
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-``` r
-library(ggplot2)
-honey <- read.csv("honeyproduction.csv")
-plot_usmap(data = honey, values = "totalprod", color = "black") + 
-  scale_fill_continuous(low = "blue", high = "yellow", name = "totalprod", label = scales::comma) + 
-  theme(legend.position = "right")
-```
+Which states produce the most honey? In this plot we can see top 20
+states in honey production, with North Dakota(ND), California(CA) South
+Dakota(sd) and Florida(FL) as the four major states producing honey.
 
-    ## Warning: Ignoring unknown parameters: linewidth
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-``` r
-library(tidyverse)
-honey <- read.csv("honeyproduction.csv")
-
-str(honey)
-```
+# Trends in data
 
     ## 'data.frame':    626 obs. of  8 variables:
     ##  $ state      : chr  "AL" "AZ" "AR" "CA" ...
@@ -168,115 +118,18 @@ str(honey)
     ##  $ prodvalue  : num  818000 2112000 2033000 23157000 1361000 ...
     ##  $ year       : int  1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 ...
 
-``` r
-honey %>% select(year, totalprod) %>%
- group_by(year) %>%
- summarize(total = sum(totalprod/2000)) %>%
- ggplot(aes(year, total))+
- geom_line(lwd = 2, color = 'midnightblue')+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))+
- labs(y = 'tons', x = '')+
- theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
-       panel.grid.major.x = element_blank())
-```
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
-
-``` r
-library(dplyr)
-library(ggplot2)
-
-honey %>%
- mutate(percent = totalprod / sum(totalprod)) %>%
- group_by(year) %>%
- summarize(totperc = sum(percent)) %>%
- ggplot(aes(year, totperc))+
- geom_line(lwd = 2, color = 'midnightblue')+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(limits = c(0,NA),
-                    labels = scales::percent_format())+
- labs(y = '', x = '')+
- theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
-       panel.grid.major.x = element_blank())
-```
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-``` r
-library(dplyr)
-library(ggplot2)
-honey %>% select(year, numcol, totalprod) %>%
- group_by(year) %>%
- summarize(totColo = sum(numcol),
-           totProd = sum(totalprod)) %>%
-ggplot(aes(year))+
- geom_line(aes(y = totColo/25), lwd = 1.5, color = 'orange')+
- geom_line(aes(y = totProd/2000), lwd = 1.5, color = 'green')+
- theme(axis.text.y = element_text(size = 15))+
- labs(y = 'orange = colonies x 25, green = production tons')+
- scale_x_continuous(breaks = seq(from = 1998, to = 2012, by = 1))+
- scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
-```
-
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-``` r
-library(dplyr)
-library(ggplot2)
-
-honey %>% select(state, totalprod) %>%
- group_by(state) %>%
- summarize(total = sum(totalprod/2000)) %>%
- arrange(desc(total)) %>% head(20) %>%
- ggplot(aes(reorder(state, -total), total, fill = state))+
- geom_bar(stat = 'identity')+
- scale_y_continuous(breaks = seq(from = 0, to = 250000, by = 25000))+
- labs(y = 'TONS', x = '')+
- theme(legend.position = "none",
-       panel.grid.major = element_blank(),
-       axis.text.x = element_text(size = 13),
-       axis.text.y = element_text(size = 13))
-```
+As seen from the plot, honey production has been decreasing over time.
 
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-``` r
-library(dplyr)
-library(ggplot2)
-honey %>% group_by(state, numcol, year) %>%
- summarize(total = sum(numcol/10), .groups = 'keep') %>%
- arrange(desc(total)) %>% head(100) %>%
- ggplot(aes(year, numcol, group = state, color = state))+
- geom_line(lwd = 2)+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(breaks = seq(from = 50000, to = 550000, by = 50000))+
- labs(y = 'colonies/state/year', x = '')+
- theme(axis.text.y = element_text(size = 14))+
- ggtitle(label = 'Colonies per state')
-```
-
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
-
-``` r
-library(dplyr)
-library(ggplot2)
-honey %>% group_by(state, totalprod, year) %>%
- summarize(total = sum(totalprod), .groups = 'keep') %>%
- arrange(desc(total)) %>% head(100) %>%
- ggplot(aes(year, total, group = state, color = state))+
- geom_line(lwd = 2)+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(labels = scales::label_number_si())+
- labs(y = 'prod/state/year', x = '')+
- ggtitle(label = 'Production per state')+
- theme(axis.text.y = element_text(size = 14))
-```
-
-    ## Warning: `label_number_si()` was deprecated in scales 1.2.0.
-    ## Please use the `scale_cut` argument of `label_number()` instead.
-
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 # Conclusion
 

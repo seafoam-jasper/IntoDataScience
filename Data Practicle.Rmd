@@ -26,111 +26,75 @@ The dataset analysed here gives insight into honey production supply and demand 
 
 
 
-# Methods
+# Data analysis
 
-First, let's calculate the correlation between states and number of honey producing colonies. This could be done using the following formula: 1 - the result of variance of the group/ the total variance. 
+Firstly, let's take a quick look at the data we'll be analyzing.
 
-we found a correlation of 0.964, a super one!
-
-```{r, include=TRUE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 honey <- read.csv("honeyproduction.csv")
+head(honey)
+```
+Here's also a description of each column's content:
+
+* *numcol*: Number of honey producing colonies, more precisely the maximum number of colonies from which honey was taken during the year.
+* *yieldpercol*: Honey yield in pounds per colony.
+* *totalprod*: Total production in pounds (numcol x yieldpercol).
+* *stocks*: Refers to stocks in pounds held by producers.
+* *priceperlb*: Refers to average price per pound, in dollars, based on expanded sales.
+* *prodvalue*: Value of production in dollars (totalprod x priceperlb).
+
+This dataset is rather rich in information. However the first thing I'd like to investigate further is the relationship between the states and number of honey producing colonies. 
+Here let's assume a **H0** - *states have no impact on the number of honey producing colonies.* Followed by a **H1** - *states do have an impact on the number of honey producing colonies.*
+Let's plot a boxplot of state and numcol to verify this.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
-library(tidyverse)
-library(data.table)
 library(dplyr)
-state_variance <- honey %>% group_by(state) %>% summarize (variance=var(numcol))
-state_count <- honey %>% group_by(state) %>% summarize (count=n())
-total_variance <- honey %>% summarize (variance=var(numcol))
-state_mean_variance <- sum(state_variance[,2]*state_count[,2])/sum(state_count[,2])
-correlation_state_numcol <- round((1 - (state_mean_variance/total_variance)), 3)
-correlation_state_numcol[1,1]
+
+ggplot(honey, aes(state, numcol))+
+  geom_boxplot(aes(fill = state), show.legend = FALSE)+
+  labs(x="State", y="Number of honey producing colonies")+
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1))+
+  scale_y_continuous(labels = scales::label_number_si())
+
 ```
 
-```{r}
-library(ggplot2)
+The boxplot indicates that there could be some statistical difference between the variables. To confirm this, let's calculate the correlation between states and number of honey producing colonies with an ANOVA. 
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggpubr)
 library(tidyverse)
 library(broom)
-library(AICcmodavg)
+
 honey <- read.csv("honeyproduction.csv")
 one.way <- aov(numcol ~ state, data = honey)
-
 summary(one.way)
 
-library(ggplot2)
-ggplot(honey, aes(state, numcol))+
-  geom_boxplot(aes(fill = state), show.legend = FALSE)+
-  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust=1))
-
 ```
+
+Because the **p-value** is significantly lower than alpha of 0.05, we can reject the **H0** and conclude that there is a significant statistical difference between the number of colonies in each state.
+
+
 
 
 # Results
 
-```{r, include=TRUE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(usmap)
 library(ggplot2)
 honey <- read.csv("honeyproduction.csv")
 plot_usmap(data = honey, values = "totalprod", color = "black") + 
-  scale_fill_continuous(low = "blue", high = "yellow", name = "totalprod", label = scales::comma) + 
+  scale_fill_continuous(low = "blue", high = "yellow", name = "Total production in lb", label = scales::comma) + 
   theme(legend.position = "right")
 
 
 ```
 
-```{r, include=TRUE}
 
-library(tidyverse)
-honey <- read.csv("honeyproduction.csv")
-
-str(honey)
-honey %>% select(year, totalprod) %>%
- group_by(year) %>%
- summarize(total = sum(totalprod/2000)) %>%
- ggplot(aes(year, total))+
- geom_line(lwd = 2, color = 'midnightblue')+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))+
- labs(y = 'tons', x = '')+
- theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
-       panel.grid.major.x = element_blank())
-
-```
-```{r, include=TRUE}
-library(dplyr)
-library(ggplot2)
-
-honey %>%
- mutate(percent = totalprod / sum(totalprod)) %>%
- group_by(year) %>%
- summarize(totperc = sum(percent)) %>%
- ggplot(aes(year, totperc))+
- geom_line(lwd = 2, color = 'midnightblue')+
- scale_x_continuous(breaks = 1998:2012)+
- scale_y_continuous(limits = c(0,NA),
-                    labels = scales::percent_format())+
- labs(y = '', x = '')+
- theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
-       panel.grid.major.x = element_blank())
-```
-```{r, include=TRUE}
-
-library(dplyr)
-library(ggplot2)
-honey %>% select(year, numcol, totalprod) %>%
- group_by(year) %>%
- summarize(totColo = sum(numcol),
-           totProd = sum(totalprod)) %>%
-ggplot(aes(year))+
- geom_line(aes(y = totColo/25), lwd = 1.5, color = 'orange')+
- geom_line(aes(y = totProd/2000), lwd = 1.5, color = 'green')+
- theme(axis.text.y = element_text(size = 15))+
- labs(y = 'orange = colonies x 25, green = production tons')+
- scale_x_continuous(breaks = seq(from = 1998, to = 2012, by = 1))+
- scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
-```
-
-```{r, include=TRUE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
 library(ggplot2)
@@ -149,7 +113,103 @@ honey %>% select(state, totalprod) %>%
        axis.text.y = element_text(size = 13))
 ```
 
-```{r, include=TRUE}
+
+Which states produce the most honey? In this plot we can see top 20 states in honey production, with North Dakota(ND), California(CA) South Dakota(sd) and Florida(FL) as the four major states producing honey.
+
+# Trends in data
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+honey <- read.csv("honeyproduction.csv")
+
+str(honey)
+honey %>% select(year, totalprod) %>%
+ group_by(year) %>%
+ summarize(total = sum(totalprod/2000)) %>%
+ ggplot(aes(year, total))+
+ geom_smooth(method = "lm")+
+ geom_line(lwd = 2, color = 'red')+
+ geom_point() +
+ scale_x_continuous(breaks = 1998:2012)+
+ scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))+
+ labs(y = 'tons', x = '')+
+ theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
+       panel.grid.major.x = element_blank())
+
+```
+
+
+
+As seen from the plot, honey production has been decreasing over time. 
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+honey <- read.csv("honeyproduction.csv")
+
+
+price <- honey %>%
+  group_by(year) %>% 
+  summarise(YearAvgPrice=mean(priceperlb))
+
+ ggplot(data= price, aes(year, YearAvgPrice))+
+ geom_smooth(method = "lm") + 
+  geom_line(color = "red", size = 2) +
+  geom_point() +
+  scale_x_continuous(breaks=seq(1998, 2012, 2)) +
+  ylab("Prices (Avg)") +
+  xlab("Years")
+
+```
+
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+
+honey %>%
+ mutate(percent = totalprod / sum(totalprod)) %>%
+ group_by(year) %>%
+ summarize(totperc = sum(percent)) %>%
+ ggplot(aes(year, totperc))+
+ geom_line(lwd = 2, color = 'midnightblue')+
+ scale_x_continuous(breaks = 1998:2012)+
+ scale_y_continuous(limits = c(0,NA),
+                    labels = scales::percent_format())+
+ labs(y = '', x = '')+
+ theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1),
+       panel.grid.major.x = element_blank())
+```
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(dplyr)
+library(ggplot2)
+honey %>% select(year, numcol, totalprod) %>%
+ group_by(year) %>%
+ summarize(totColo = sum(numcol),
+           totProd = sum(totalprod)) %>%
+ggplot(aes(year))+
+ geom_line(aes(y = totColo/25), lwd = 1.5, color = 'orange')+
+ geom_line(aes(y = totProd/2000), lwd = 1.5, color = 'green')+
+ theme(axis.text.y = element_text(size = 15))+
+ labs(y = 'orange = colonies x 25, green = production tons')+
+ scale_x_continuous(breaks = seq(from = 1998, to = 2012, by = 1))+
+ scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
+```
+
+
+
+
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
 library(ggplot2)
@@ -160,12 +220,12 @@ honey %>% group_by(state, numcol, year) %>%
  geom_line(lwd = 2)+
  scale_x_continuous(breaks = 1998:2012)+
  scale_y_continuous(breaks = seq(from = 50000, to = 550000, by = 50000))+
- labs(y = 'colonies/state/year', x = '')+
+ labs(y = 'colonies/state', x = 'year')+
  theme(axis.text.y = element_text(size = 14))+
  ggtitle(label = 'Colonies per state')
 ```
 
-```{r, include=TRUE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
 library(ggplot2)
