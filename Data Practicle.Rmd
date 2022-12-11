@@ -168,20 +168,6 @@ honey %>% select(state, totalprod) %>%
 
 In this plot we can see top 20 states in honey production, with North Dakota(ND), California(CA) South Dakota(SD) and Florida(FL) as the four major states producing honey.
 
-We can also visualize total honey production by state throughout the years. 
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(plotly)
-
-state.production <- honey %>% 
-  ggplot(aes(x = year, y = totalprod/2000, color = state)) + 
-  geom_line(show.legend = F) + 
-  labs(title = "Hoeny Production from 1998 to 2012 by each state", y="Total honey production (in tons)")
-state.production %>% ggplotly()
-```
-
-
 
 
 # Trends in data
@@ -257,7 +243,9 @@ ggplot(aes(year))+
 
 
 From this plot we can conclude that *as the number of colonies decreases, so does the honey production*. 
+
 * Additionally, the number of colonies begins dropping from 1999, however the honey production is in a surge from 1999 to 2000.This is explained by the fact that honey can be collected even from collapsed colonies. However, as expected there was a huge drop in honey production in the period from 2000 to 2002, which is directly influenced by the collapsed colonies from 1999 onward. This pattern is found again in the period from 2006 to 2008.
+
 * After 2008 up to 2010 the number of colonies increase rapidly, which leads to an increase in production.
 
 

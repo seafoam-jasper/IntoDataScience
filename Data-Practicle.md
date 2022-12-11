@@ -1,14 +1,15 @@
-DataScience - Honey Productionin the USA
+DataScience - Honey Production in the USA
 ================
 Martina Djordjijevic
 2022-09-28
 
 - <a href="#introduction" id="toc-introduction">Introduction</a>
 - <a href="#data-analysis" id="toc-data-analysis">Data analysis</a>
-- <a href="#results" id="toc-results">Results</a>
 - <a href="#trends-in-data" id="toc-trends-in-data">Trends in data</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
-- <a href="#references" id="toc-references">References</a>
+- <a href="#references--source-for-dataset"
+  id="toc-references--source-for-dataset">References &amp; Source for
+  dataset</a>
 
 # Introduction
 
@@ -82,6 +83,16 @@ colonies.* Let’s plot a boxplot of state and numcol to verify this.
 
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+Let’s try finding outliers and eliminating them, so our boxplot makes
+more sense.
+
+    ##   25%   75% 
+    ##  9000 63750
+
+    ## [1] 54750
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 The boxplot indicates that there could be some statistical difference
 between the variables. To confirm this, let’s calculate the correlation
 between states and number of honey producing colonies with an ANOVA.
@@ -96,17 +107,34 @@ Because the **p-value** is significantly lower than alpha of 0.05, we
 can reject the **H0** and conclude that there is a significant
 statistical difference between the number of colonies in each state.
 
-# Results
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+We can also plot
 
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-Which states produce the most honey? In this plot we can see top 20
-states in honey production, with North Dakota(ND), California(CA) South
-Dakota(sd) and Florida(FL) as the four major states producing honey.
+What are some other questions we could pose regarding the data set?
+**Which states produce the most honey?**
+
+To see this let’s take a look at the total honey production in every
+state. We could plot that on a U.S. map.
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+This plot looks lovely, but it’s kind of hard to read. Let’s plot 20
+states with the largest production on a histogram.
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+In this plot we can see top 20 states in honey production, with North
+Dakota(ND), California(CA) South Dakota(SD) and Florida(FL) as the four
+major states producing honey.
 
 # Trends in data
+
+We can also look at some existing trends in our dataset. **What happens
+to the rates of honey production over time?** because there is a huge
+drop of number of colonies existing, it should be expected that the
+total honey production is also dropping. Let’s verify if that is
+correct.
 
     ## 'data.frame':    626 obs. of  8 variables:
     ##  $ state      : chr  "AL" "AZ" "AR" "CA" ...
@@ -118,22 +146,41 @@ Dakota(sd) and Florida(FL) as the four major states producing honey.
     ##  $ prodvalue  : num  818000 2112000 2033000 23157000 1361000 ...
     ##  $ year       : int  1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 ...
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
-
-As seen from the plot, honey production has been decreasing over time.
-
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
-
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+As seen from the plot above, honey production has been decreasing over
+time. But **what about the prices?** We can expect that the price will
+increase over time. Let’s verify that.
+
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- --> The
+plot confirms that the prices have been going up over the years.
+
+Finally, let’s plot the number of colonies and honey production
+together, in order to observe their development over time.
 
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+From this plot we can conclude that *as the number of colonies
+decreases, so does the honey production*.
+
+- Additionally, the number of colonies begins dropping from 1999,
+  however the honey production is in a surge from 1999 to 2000.This is
+  explained by the fact that honey can be collected even from collapsed
+  colonies. However, as expected there was a huge drop in honey
+  production in the period from 2000 to 2002, which is directly
+  influenced by the collapsed colonies from 1999 onward. This pattern is
+  found again in the period from 2006 to 2008.
+
+- After 2008 up to 2010 the number of colonies increase rapidly, which
+  leads to an increase in production.
 
 # Conclusion
 
-# References
+states have no impact on the number of honey producing colonies Which
+states produce the most honey? What happens to the rates of production
+over time? what about the prices?
+
+# References & Source for dataset
 
 The clean version of this dataset was provided by Kaggle, however the
 original raw dataset was from the USDA’s National Agricultural
