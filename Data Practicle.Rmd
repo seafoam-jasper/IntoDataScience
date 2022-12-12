@@ -22,11 +22,20 @@ It is important to note that this phenomenon also causes the remaining hive colo
 The dataset analysed here gives insight into honey production supply and demand in America by state from 1998 to 2012.
 
 ![](closeup-shot-bee-chamomile-flower.jpg)
+# Research questions 
 
+As the data set is fairly large, there's a number of different things one might focus on. After spending some time reading about bee colonies and also looking at this specific data set, the thing that marked my interest the most was the relationship between honey production and number of colonies through time. The questions I find most relevant regarding that would be the following: 
 
+* *Which states have the most bee colonies?*
+* *Which states produce the most honey?*
+* *What happens to the rates of production over time?*
+* *What about the prices, do they get higher over time?*
+* *Are there any trends in honey production related to the number of colonies?*
 
+This will be a simple exploratory data analysis on the production of honey in the U.S. 
 
 # Data analysis
+
 
 Firstly, let's take a quick look at the data we'll be analyzing.
 
@@ -43,9 +52,7 @@ Here's also a description of each column's content:
 * *priceperlb*: Refers to average price per pound, in dollars, based on expanded sales.
 * *prodvalue*: Value of production in dollars (totalprod x priceperlb).
 
-This dataset is rather rich in information. However the first thing I'd like to investigate further is the relationship between the states and number of honey producing colonies. 
-Here let's assume a **H0** - *states have no impact on the number of honey producing colonies.* Followed by a **H1** - *states do have an impact on the number of honey producing colonies.*
-Let's plot a boxplot of state and numcol to verify this.
+This dataset is rather rich in information. However the first thing I'd like to investigate further is the relationship between the states and number of honey producing colonies. Let's plot a box plot of state and numcol to verify this.
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -85,46 +92,29 @@ ggplot(eliminated, aes(state, numcol))+
 
 
 
+As expected, the box plot shows differences between the states. Let's plot a histogram of 20 states with the highest number of bee colonies. 
 
-
-The boxplot indicates that there could be some statistical difference between the variables. To confirm this, let's calculate the correlation between states and number of honey producing colonies with an ANOVA. 
-
-
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-library(ggpubr)
-library(tidyverse)
-library(broom)
-
-honey <- read.csv("honeyproduction.csv")
-one.way <- aov(numcol ~ state, data = honey)
-summary(one.way)
-
-```
-
-Because the **p-value** is significantly lower than alpha of 0.05, we can reject the **H0** and conclude that there is a significant statistical difference between the number of colonies in each state.
-
-
-We can also plot 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
 library(ggplot2)
-honey %>% group_by(state, numcol, year) %>%
- summarize(total = sum(numcol/10), .groups = 'keep') %>%
- arrange(desc(total)) %>% head(100) %>%
- ggplot(aes(year, numcol, group = state, color = state))+
- geom_line(lwd = 2)+
- scale_x_continuous(breaks = 1998:2012)+
+
+honey %>% select(state, numcol) %>%
+ group_by(state) %>%
+ summarize(total = sum(numcol/10)) %>%
+ arrange(desc(total)) %>% head(20) %>%
+ ggplot(aes(reorder(state, -total), total, fill = state))+
+ geom_bar(stat = 'identity')+
  scale_y_continuous(breaks = seq(from = 50000, to = 550000, by = 50000))+
- labs(y = 'colonies/state', x = 'year')+
- theme(axis.text.y = element_text(size = 14))+
- ggtitle(label = 'Colonies per state')
+ labs(y = 'Number of colonies', x = 'States')+
+ theme(legend.position = "none",
+       panel.grid.major = element_blank(),
+       axis.text.x = element_text(size = 13),
+       axis.text.y = element_text(size = 13))
 ```
 
-
-
+It appears that four states with the highest number of colonies are California(CA), North Dakota(ND), South Dakota(SD) and Florida(FL).
 
 
 What are some other questions we could pose regarding the data set?
@@ -166,9 +156,24 @@ honey %>% select(state, totalprod) %>%
 ```
 
 
-In this plot we can see top 20 states in honey production, with North Dakota(ND), California(CA) South Dakota(SD) and Florida(FL) as the four major states producing honey.
+In this plot we can see top 20 states in honey production, with North Dakota(ND), California(CA) South Dakota(SD) and Florida(FL) as the four major states producing honey. This adds up to what we've seen before, those were also the four states with the highest number of bee colonies. 
+
+Finally, we could plot the change in total honey production over the period from 1998 to 2012, to see whether there was an overall increase or decrease depending on the state.
 
 
+```{r}
+honey %>% filter(year %in% c(1998,2012))%>% 
+  arrange(year) %>% 
+  ggplot(aes(x = totalprod, y = reorder(state, totalprod))) + 
+  geom_path(color = "red", 
+            arrow = arrow(length = unit(1.5, "mm"), 
+                          type = "closed")) +
+  scale_x_continuous(labels = scales::label_number_si())+
+  labs(title = "Change of Total Production from 1998 to 2012", 
+       y = "State", x = "Production (pounds)")
+```
+
+What we can see from this plot is that the total honey production decreases for most states, however only North Dakota (ND) recorded significant increase.
 
 # Trends in data
 
@@ -233,10 +238,10 @@ honey %>% select(year, numcol, totalprod) %>%
  summarize(totColo = sum(numcol),
            totProd = sum(totalprod)) %>%
 ggplot(aes(year))+
- geom_line(aes(y = totColo/25), lwd = 1.5, color = 'orange')+
- geom_line(aes(y = totProd/2000), lwd = 1.5, color = 'green')+
+ geom_line(aes(y = totColo/25), lwd = 1.5, color = 'red')+
+ geom_line(aes(y = totProd/2000), lwd = 1.5, color = 'blue')+
  theme(axis.text.y = element_text(size = 15))+
- labs(y = 'orange = colonies x 25, green = production in tons')+
+ labs(y = 'Red = Number of colonies x 25, Blue = Production in tons')+
  scale_x_continuous(breaks = seq(from = 1998, to = 2012, by = 1))+
  scale_y_continuous(breaks = seq(from = 70000, to = 110000, by = 5000))
 ```
@@ -251,12 +256,9 @@ From this plot we can conclude that *as the number of colonies decreases, so doe
 
 
 
-
 # Conclusion
-states have no impact on the number of honey producing colonies
-Which states produce the most honey?
-What happens to the rates of production over time?
-what about the prices?
+
+
 
 # References & Source for dataset
 
