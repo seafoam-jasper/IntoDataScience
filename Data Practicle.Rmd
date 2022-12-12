@@ -22,6 +22,8 @@ It is important to note that this phenomenon also causes the remaining hive colo
 The dataset analysed here gives insight into honey production supply and demand in America by state from 1998 to 2012.
 
 ![](closeup-shot-bee-chamomile-flower.jpg)
+
+
 # Research questions 
 
 As the data set is fairly large, there's a number of different things one might focus on. After spending some time reading about bee colonies and also looking at this specific data set, the thing that marked my interest the most was the relationship between honey production and number of colonies through time. The questions I find most relevant regarding that would be the following: 

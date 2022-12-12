@@ -4,6 +4,8 @@ Martina Djordjijevic
 2022-09-28
 
 - <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#research-questions" id="toc-research-questions">Research
+  questions</a>
 - <a href="#data-analysis" id="toc-data-analysis">Data analysis</a>
 - <a href="#trends-in-data" id="toc-trends-in-data">Trends in data</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
@@ -49,7 +51,9 @@ when almost half the honey consumed was produced locally.
 The dataset analysed here gives insight into honey production supply and
 demand in America by state from 1998 to 2012.
 
-![](closeup-shot-bee-chamomile-flower.jpg) \# Research questions
+![](closeup-shot-bee-chamomile-flower.jpg)
+
+# Research questions
 
 As the data set is fairly large, there’s a number of different things
 one might focus on. After spending some time reading about bee colonies
