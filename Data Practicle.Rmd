@@ -37,6 +37,7 @@ As the data set is fairly large, there's a number of different things one might 
 This will be a simple exploratory data analysis on the production of honey in the U.S. focusing on the following hypotheses: 
 
 **H0** - Number of bee colonies in any state has no impact on honey production.
+
 **H1** - Number of bee colonies in any state has impact on honey production.
 
 
@@ -155,7 +156,7 @@ honey %>% select(state, totalprod) %>%
  ggplot(aes(reorder(state, -total), total, fill = state))+
  geom_bar(stat = 'identity')+
  scale_y_continuous(breaks = seq(from = 0, to = 250000, by = 25000))+
- labs(y = 'TONS', x = '')+
+ labs(y = 'Honey production (in tons)', x = 'States')+
  theme(legend.position = "none",
        panel.grid.major = element_blank(),
        axis.text.x = element_text(size = 13),
@@ -169,15 +170,17 @@ Finally, we could plot the change in total honey production over the period from
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
 honey %>% filter(year %in% c(1998,2012))%>% 
   arrange(year) %>% 
-  ggplot(aes(x = totalprod, y = reorder(state, totalprod))) + 
+  ggplot(aes(x = totalprod/2000, y = reorder(state, totalprod))) + 
   geom_path(color = "red", 
             arrow = arrow(length = unit(1.5, "mm"), 
                           type = "closed")) +
   scale_x_continuous(labels = scales::label_number_si())+
   labs(title = "Change of Total Production from 1998 to 2012", 
-       y = "State", x = "Production (pounds)")
+       y = "State", x = "Production (tons)")
 ```
 
 What we can see from this plot is that the total honey production decreases for most states, however only North Dakota (ND) recorded significant increase.
@@ -231,10 +234,15 @@ price <- honey %>%
   xlab("Years")
 
 ```
+
+
+
 The plot confirms that the prices have been going up over the years. 
 
 
 Finally, let's plot the number of colonies and honey production together, in order to observe their development over time.
+
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 

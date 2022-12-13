@@ -78,8 +78,10 @@ This will be a simple exploratory data analysis on the production of
 honey in the U.S. focusing on the following hypotheses:
 
 **H0** - Number of bee colonies in any state has no impact on honey
-production. **H1** - Number of bee colonies in any state has impact on
-honey production.
+production.
+
+**H1** - Number of bee colonies in any state has impact on honey
+production.
 
 # Data analysis
 
@@ -181,8 +183,9 @@ As seen from the plot above, honey production has been decreasing over
 time. But **what about the prices?** We can expect that the price will
 increase over time. Let’s verify that.
 
-![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- --> The
-plot confirms that the prices have been going up over the years.
+![](Data-Practicle_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+The plot confirms that the prices have been going up over the years.
 
 Finally, let’s plot the number of colonies and honey production
 together, in order to observe their development over time.
