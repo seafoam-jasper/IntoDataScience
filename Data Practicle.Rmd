@@ -7,7 +7,7 @@ output:
     toc: true
 ---
 
-# Introduction
+# Introduction 
 
 Bees have been around for many millennia, however in most recent times the hardworking colonies face many trials and tribulations due to various factors such as an extensive use of pesticides, loss of habitat – mostly because of rapid urbanization, unusually warm winters that cause a shift in plant development etc. The importance of these insects in the process of pollination is undeniable, valid for both wild bees and honeybees, hence the rapid decline in the number of their colonies presents a problem not only on the more global level in the nature, but also to the world agricultural output economic value. 
 
@@ -19,14 +19,14 @@ Let's take a look at Wikipedia's definition of this phenomenon:
 
 It is important to note that this phenomenon also causes the remaining hive colony to collapse. The cause of the decline of 2006 is probably to be found in hive diseases and pesticides harming the pollinators, as these two processes are highly correlated, though no real consensus was reached. Ever since the collapse, the American honey industry has been largely struggling. After the collapse the U.S. is forced to import large amounts of honey, more precisely 350 of the 400 million pounds each year, which is in stark contrast to this industries brilliant past when almost half the honey consumed was produced locally.
 
-The dataset analysed here gives insight into honey production supply and demand in America by state from 1998 to 2012.
+The dataset analysed here gives insight into honey production supply and demand in America by state from 1998 to 2012. This dataset does not provide any variables that might reveal causal relationships regarding colony collapse disorder, it is instead focused on honey production. However I find it important to mention such phenomenon, not only because it is of general importance, but also because it explains the decline in honey production.
 
 ![](closeup-shot-bee-chamomile-flower.jpg)
 
 
 # Research questions 
 
-As the data set is fairly large, there's a number of different things one might focus on. After spending some time reading about bee colonies and also looking at this specific data set, the thing that marked my interest the most was the relationship between honey production and number of colonies through time. The questions I find most relevant regarding that would be the following: 
+As the data set is fairly large, there's a number of different things one might focus on. After spending some time reading about honey production and also looking at this specific data set, the thing that marked my interest the most was the relationship between honey production and number of colonies through time. The questions I find most relevant regarding that would be the following: 
 
 * *Which states have the most bee colonies?*
 * *Which states produce the most honey?*
@@ -34,7 +34,12 @@ As the data set is fairly large, there's a number of different things one might 
 * *What about the prices, do they get higher over time?*
 * *Are there any trends in honey production related to the number of colonies?*
 
-This will be a simple exploratory data analysis on the production of honey in the U.S. 
+This will be a simple exploratory data analysis on the production of honey in the U.S. focusing on the following hypotheses: 
+
+**H0** - Number of bee colonies in any state has no impact on honey production.
+**H1** - Number of bee colonies in any state has impact on honey production.
+
+
 
 # Data analysis
 
@@ -163,7 +168,7 @@ In this plot we can see top 20 states in honey production, with North Dakota(ND)
 Finally, we could plot the change in total honey production over the period from 1998 to 2012, to see whether there was an overall increase or decrease depending on the state.
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 honey %>% filter(year %in% c(1998,2012))%>% 
   arrange(year) %>% 
   ggplot(aes(x = totalprod, y = reorder(state, totalprod))) + 
@@ -229,7 +234,7 @@ price <- honey %>%
 The plot confirms that the prices have been going up over the years. 
 
 
-Finally, let's plot the number of colonies and honey production together, in order to observe their development over time. 
+Finally, let's plot the number of colonies and honey production together, in order to observe their development over time.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -260,6 +265,8 @@ From this plot we can conclude that *as the number of colonies decreases, so doe
 
 # Conclusion
 
+
+As we've seen in the previous sections, honey production is highly dependent on the number of bee colonies. The states that produce the most honey had the biggest number of bee colonies. Additionally, as the number of bee colonies dropped, so did the production of honey. We can safely reject our **H0** in favor of the **H1** - Number of bee colonies in any state has impact on honey production.
 
 
 # References & Source for dataset

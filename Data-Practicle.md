@@ -49,18 +49,23 @@ each year, which is in stark contrast to this industries brilliant past
 when almost half the honey consumed was produced locally.
 
 The dataset analysed here gives insight into honey production supply and
-demand in America by state from 1998 to 2012.
+demand in America by state from 1998 to 2012. This dataset does not
+provide any variables that might reveal causal relationships regarding
+colony collapse disorder, it is instead focused on honey production.
+However I find it important to mention such phenomenon, not only because
+it is of general importance, but also because it explains the decline in
+honey production.
 
 ![](closeup-shot-bee-chamomile-flower.jpg)
 
 # Research questions
 
 As the data set is fairly large, there’s a number of different things
-one might focus on. After spending some time reading about bee colonies
-and also looking at this specific data set, the thing that marked my
-interest the most was the relationship between honey production and
-number of colonies through time. The questions I find most relevant
-regarding that would be the following:
+one might focus on. After spending some time reading about honey
+production and also looking at this specific data set, the thing that
+marked my interest the most was the relationship between honey
+production and number of colonies through time. The questions I find
+most relevant regarding that would be the following:
 
 - *Which states have the most bee colonies?*
 - *Which states produce the most honey?*
@@ -70,7 +75,11 @@ regarding that would be the following:
   colonies?*
 
 This will be a simple exploratory data analysis on the production of
-honey in the U.S.
+honey in the U.S. focusing on the following hypotheses:
+
+**H0** - Number of bee colonies in any state has no impact on honey
+production. **H1** - Number of bee colonies in any state has impact on
+honey production.
 
 # Data analysis
 
@@ -142,18 +151,6 @@ Finally, we could plot the change in total honey production over the
 period from 1998 to 2012, to see whether there was an overall increase
 or decrease depending on the state.
 
-``` r
-honey %>% filter(year %in% c(1998,2012))%>% 
-  arrange(year) %>% 
-  ggplot(aes(x = totalprod, y = reorder(state, totalprod))) + 
-  geom_path(color = "red", 
-            arrow = arrow(length = unit(1.5, "mm"), 
-                          type = "closed")) +
-  scale_x_continuous(labels = scales::label_number_si())+
-  labs(title = "Change of Total Production from 1998 to 2012", 
-       y = "State", x = "Production (pounds)")
-```
-
 ![](Data-Practicle_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 What we can see from this plot is that the total honey production
@@ -207,6 +204,13 @@ decreases, so does the honey production*.
   leads to an increase in production.
 
 # Conclusion
+
+As we’ve seen in the previous sections, honey production is highly
+dependent on the number of bee colonies. The states that produce the
+most honey had the biggest number of bee colonies. Additionally, as the
+number of bee colonies dropped, so did the production of honey. We can
+safely reject our **H0** in favor of the **H1** - Number of bee colonies
+in any state has impact on honey production.
 
 # References & Source for dataset
 
