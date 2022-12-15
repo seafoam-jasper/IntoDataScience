@@ -282,3 +282,24 @@ As we've seen in the previous sections, honey production is highly dependent on 
 The clean version of this dataset was provided by Kaggle, however the original raw dataset was from the USDA's National Agricultural Statistics Service (NASS). 
 
 <a href="https://www.freepik.com/free-photo/closeup-shot-bee-chamomile-flower_13411366.htm#query=bee&position=29&from_view=search&track=sph">Image by wirestock</a> on Freepik
+
+
+April 29, & Zissu, 2022 Alexandra. (n.d.). Colony Collapse Disorder: Why Are Bees Dying? NRDC. Retrieved December 10, 2022, from https://www.nrdc.org/stories/buzz-about-colony-collapse-disorder
+
+Colony collapse disorder. (2022). In Wikipedia. https://en.wikipedia.org/w/index.php?title=Colony_collapse_disorder&oldid=1123481094
+
+Data Analysis of Honey Production. (n.d.). Retrieved December 12, 2022, from https://kaggle.com/code/koki25ando/data-analysis-of-honey-production
+
+Ferdman, R. A. (2021, November 25). Dying honeybees, and the uncertain future of honey. Washington Post. https://www.washingtonpost.com/news/wonk/wp/2015/05/14/dying-bees-could-mean-the-end-of-american-honey/
+
+Gallai, N., Salles, J.-M., Settele, J., & Vaissière, B. E. (2009). Economic valuation of the vulnerability of world agriculture confronted with pollinator decline. Ecological Economics, 68(3), 810–821. https://doi.org/10.1016/j.ecolecon.2008.06.014
+
+Honey Production in the USA (1998-2012). (n.d.). Retrieved December 12, 2022, from https://www.kaggle.com/datasets/jessicali9530/honey-production
+
+Honey Production in USA (1998-2012). (n.d.). Retrieved December 12, 2022, from http://rstudio-pubs-static.s3.amazonaws.com/453012_5f25e98ad0184f0da25b99e9c1ea42eb.html
+
+Honey Production USA. (n.d.). Retrieved December 12, 2022, from https://kaggle.com/code/jcraggy/honey-production-usa
+
+Ten years since the colony collapse crisis began, what is happening to the world’s bees? (2017, May 8). ABC News. https://www.abc.net.au/news/2017-05-08/colony-collapse-ten-years-after-crisis-what-is-happening-to-bees/8507408
+
+
