@@ -23,7 +23,8 @@ cause a shift in plant development etc. The importance of these insects
 in the process of pollination is undeniable, valid for both wild bees
 and honeybees, hence the rapid decline in the number of their colonies
 presents a problem not only on the more global level in the nature, but
-also to the world agricultural output economic value.
+also to the world agricultural output economic value. (Gallai et al.,
+2009)
 
 Back in 2006, there was a huge decline in the honeybee population
 reported mostly in North America, which had a huge impact on the
@@ -31,7 +32,8 @@ American honey agriculture. This decline was due to the Colony Collapse
 Disorder, a phenomenon reported in many countries and continents since
 1998.
 
-Let’s take a look at Wikipedia’s definition of this phenomenon:
+Let’s take a look at Wikipedia’s definition (“Colony Collapse Disorder,”
+2022) of this phenomenon:
 
 > > > Colony collapse disorder (CCD) is an abnormal phenomenon that
 > > > occurs when the majority of worker bees in a honey bee colony
@@ -46,7 +48,8 @@ reached. Ever since the collapse, the American honey industry has been
 largely struggling. After the collapse the U.S. is forced to import
 large amounts of honey, more precisely 350 of the 400 million pounds
 each year, which is in stark contrast to this industries brilliant past
-when almost half the honey consumed was produced locally.
+when almost half the honey consumed was produced locally. (Ferdman,
+2021)
 
 The dataset analysed here gives insight into honey production supply and
 demand in America by state from 1998 to 2012. This dataset does not

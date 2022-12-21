@@ -9,15 +9,15 @@ output:
 
 # Introduction 
 
-Bees have been around for many millennia, however in most recent times the hardworking colonies face many trials and tribulations due to various factors such as an extensive use of pesticides, loss of habitat – mostly because of rapid urbanization, unusually warm winters that cause a shift in plant development etc. The importance of these insects in the process of pollination is undeniable, valid for both wild bees and honeybees, hence the rapid decline in the number of their colonies presents a problem not only on the more global level in the nature, but also to the world agricultural output economic value. 
+Bees have been around for many millennia, however in most recent times the hardworking colonies face many trials and tribulations due to various factors such as an extensive use of pesticides, loss of habitat – mostly because of rapid urbanization, unusually warm winters that cause a shift in plant development etc. The importance of these insects in the process of pollination is undeniable, valid for both wild bees and honeybees, hence the rapid decline in the number of their colonies presents a problem not only on the more global level in the nature, but also to the world agricultural output economic value. (Gallai et al., 2009)
 
 Back in 2006, there was a huge decline in the honeybee population reported mostly in North America, which had a huge impact on the American honey agriculture. This decline was due to the Colony Collapse Disorder, a phenomenon reported in many countries and continents since 1998. 
 
-Let's take a look at Wikipedia's definition of this phenomenon:
+Let's take a look at Wikipedia's definition (“Colony Collapse Disorder,” 2022) of this phenomenon:
 
 >>>  Colony collapse disorder (CCD) is an abnormal phenomenon that occurs when the majority of worker bees in a honey bee colony disappear, leaving behind a queen, plenty of food, and a few nurse bees to care for the remaining immature bees.
 
-It is important to note that this phenomenon also causes the remaining hive colony to collapse. The cause of the decline of 2006 is probably to be found in hive diseases and pesticides harming the pollinators, as these two processes are highly correlated, though no real consensus was reached. Ever since the collapse, the American honey industry has been largely struggling. After the collapse the U.S. is forced to import large amounts of honey, more precisely 350 of the 400 million pounds each year, which is in stark contrast to this industries brilliant past when almost half the honey consumed was produced locally.
+It is important to note that this phenomenon also causes the remaining hive colony to collapse. The cause of the decline of 2006 is probably to be found in hive diseases and pesticides harming the pollinators, as these two processes are highly correlated, though no real consensus was reached. Ever since the collapse, the American honey industry has been largely struggling. After the collapse the U.S. is forced to import large amounts of honey, more precisely 350 of the 400 million pounds each year, which is in stark contrast to this industries brilliant past when almost half the honey consumed was produced locally. (Ferdman, 2021)
 
 The dataset analysed here gives insight into honey production supply and demand in America by state from 1998 to 2012. This dataset does not provide any variables that might reveal causal relationships regarding colony collapse disorder, it is instead focused on honey production. However I find it important to mention such phenomenon, not only because it is of general importance, but also because it explains the decline in honey production.
 
